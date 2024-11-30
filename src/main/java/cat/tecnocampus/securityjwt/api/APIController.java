@@ -1,13 +1,22 @@
 package cat.tecnocampus.securityjwt.api;
 
+import cat.tecnocampus.securityjwt.application.UserController;
+import cat.tecnocampus.securityjwt.application.dtp.UserDTO;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 
 @RestController
 public class APIController {
+    private final UserController userController;
 
+    public APIController(UserController userController) {
+        this.userController = userController;
+    }
     @GetMapping("/helloWorld")
     public String helloWorld() {
         return "Hello World";
@@ -68,6 +77,12 @@ public class APIController {
     public String moderatorCccAdmin() {
         return "moderator/ccc/admin";
     }
+
+    @PostMapping("/User")
+    public void createUser(@RequestBody UserDTO user) {
+        userController.createUser(user);
+    }
+
 
     // TODO 2 add a PostMapping to create a new user with a single role. The role must be ADMIN or USER or MODERATOR
 }
